@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>四号商铺 | 商城</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/zoumadeng.css}" rel="stylesheet" type="text/css"/>
+    <script th:src="@{/layui/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+
+    <style>
+        .desc>p{
+            font-size: 20px;
+            font-weight: 300;
+        }
+        .product_img{
+            background-color: #FFFFFF;
+            border-radius: 3px;
+            border: 1px solid #e1e1e1;
+        }
+        .product_info>p{
+            margin: 20px 0;
+            text-align: right;
+        }
+        .product_info>.title{
+            font-weight: bold;
+            text-align: left;
+        }
+        .size1{
+            font-size: 30px;
+        }
+        .product_info>.price{
+            font-weight: 500;
+            color: #1e1e1e;
+        }
+        .size2{
+            font-size: 24px;
+        }
+        .product_info>p>.price1{
+            font-weight: bold;
+            color: #FF5722;
+        }
+        .size3{
+            font-size: 30px;
+        }
+         *{margin:0; padding:0;}
+           body,input{font-size:14px; line-height:24px; color:#333; font-family:Microsoft yahei, Song, Arial, Helvetica, Tahoma, Geneva;}
+           h1{margin-bottom:15px; height:100px; line-height:100px; text-align:center; font-size:24px; color:#fff; background:black;}
+          #content #post,#comment p{zoom:1;}
+          #content #post:after,#comment p:after{display:block; height:0; clear:both; visibility:hidden; overflow:hidden; content:'.';}
+          .transition{-webkit-transition:all 0.5s linear; -moz-transition:all 0.5s linear; -o-transition:all 0.5s linear; -ms-transition:all 0.5s linear; transition:all 0.5s linear;}
+          #content{margin:0 auto; width:960px; overflow:hidden;}
+          #content #post{margin-bottom:15px; padding-bottom:15px; border-bottom:1px #d4d4d4 dashed;
+                   height: 556px;
+               }
+          #content #post textarea{display:block; margin-bottom:10px; padding:5px; width:948px; height:390px; border:1px #d1d1d1 solid; border-radius:5px; resize:none; outline:none;}
+          #content #post textarea:hover{border:1px #9bdf70 solid; background:#f0fbeb;}
+          #content #post #postBt,#content #post #clearBt{margin-left:5px; padding:3px; float:right;}
+          #comment{overflow:hidden;}
+          #comment p{margin-bottom:10px; padding:10px; border-radius:5px;}
+         #comment p:nth-child(odd){border:1px solid #e3e197; background:#ffd;}
+          #comment p:nth-child(even){border:1px solid #adcd3c; background:#f2fddb;}
+          /*#comment p span{display:inline; float:left;}*/
+          #comment p .right{text-align:right;}
+          #comment p .msg{width:738px;}
+          #comment p .datetime{width:200px; color:#999; text-align:right;}
+ </style>
+</head>
+<body class="site-home">
+<!--头部模块-->
+<div th:replace="mall/common::head"></div>
+
+<div class="card3 layui-anim layui-anim-scale">
+ 
+<div class="layui-container" id="content">
+    <!--商品详情-->
+    <div class="layui-row" style="margin-top: 10px;">
+        <div class="layui-row" id="product">
+         
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <img class="product_img img_responsive" th:src="${product.image}" />
+            </div>
+           
+           <div style="height: 200px;">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md6">
+                <div class="product_info">
+                    <input type="hidden" id="productId" th:value="${product.id}"/>
+                    <p th:text="${product.title}" class="title size1"></p>
+                    <hr class="layui-bg-red" />
+                    <p class="price size2">商城优惠价：<span class="price1 size3" th:text="${product.shopPrice}"></span></p>
+                    <hr class="layui-bg-red" />
+                    <p class="price size2">市场价：<span class="" th:text="${product.marketPrice}"></span></p>
+                    <hr class="layui-bg-red" />
+                    <p ><button onclick="addCart()" class="layui-btn layui-btn-lg layui-btn-radius layui-btn-danger">加入购物车</button></p>
+                </div>
+            </div>
+        </div>
+ 		</div>
+        
+    </div>
+     </div>
+</div>
+<br></br>
+<div class="card3 layui-anim layui-anim-scale">
+  <div class="layui-tab layui-tab-card">
+  <ul class="layui-tab-title">
+    <li class="layui-this">商品信息</li>
+    <li>商品评论</li>
+    <li>相关推荐</li>
+    
+  </ul>
+  <div class="layui-tab-content" >
+    <div class="layui-tab-item layui-show">
+    <div class="layui-row" style="margin-top: 50px;text-align: center;">
+            <fieldset class="layui-elem-field">
+                <legend style="font-weight: 700"><i class="fa fa-heart" style="color: #FF5722;"></i>商品描述<i class="fa fa-heart" style="color: #FF5722;"></i></legend>
+                <div class="layui-field-box desc">
+                    <p th:text="${product.desc}"></p>
+                    <hr class="layui-bg-green" />
+                    <img class="img_responsive" th:src="${product.image}" />
+                </div>
+            </fieldset>
+        </div>
+    
+    </div>
+<div class="layui-tab-item">
+
+<div  id="comment"></div>
+<div align="center" ><a class="more" href="javascript: more();">点击加载更多</a></div>
+
+<input type="hidden" id="last" value="0"></input>   
+</div>
+<div class="layui-tab-item">
+
+3</div>
+   
+</div>
+</div>
+
+</div>
+
+
+    <script>
+        //        <![CDATA[
+        function addCart() {
+            var productId = $("#productId").val();
+            if(!productId){
+                layer.msg("错误！");
+                return;
+            }
+
+            $.get("addCart.do?productId="+productId,function (data) {
+                if (data.state==0){
+                    layer.msg("添加购物车成功！");
+                }else {
+                    layer.msg(data.message);
+                }
+            });
+        }
+
+
+        //移动端页面优化
+        var device = layui.device();
+        if (device.weixin || device.ios || device.android){
+            $(".product_info p").attr("style","margin-left: 0;margin-bottom: 0;");
+            $(".layui-btn").attr("style","width:100%");
+            $(".size1").addClass("price2").removeClass("size1");
+            $(".size2").addClass("price2").removeClass("size2");
+            $(".size3").addClass("price2").removeClass("size3");
+        };
+        
+        var pageNo = 0;
+        $(function () {
+            
+            //加载评论
+            loadComment(pageNo);
+        });
+
+
+        function loadComment(pageindex) {
+        	var item_id = location.search.split('=')[1];
+        	
+        	//var item_id = 7;
+            $.get("newComment.do?pageSize=12&pageNo=" + pageindex +"&item_id="+ item_id, function (data) {
+                layer.closeAll();
+                if (data.state == 0) {
+                    pageNo++;
+                    var len = data.data.length;
+                   
+                    if ((!data.data || data.data.length <= 0) && pageNo > 0) {
+                        layer.msg("没有更多了");
+                    }
+                    var dataHtml = "", onedata = {};
+                    
+                    for(var i = len - 1; i >= 0; i--)//效率更高的循环方法
+                    {
+                    	onedata = data.data[i];                                                                    
+
+                            //dataHtml += "<p><span class=\"msg\">" + data[0] + "</span><span class=\"datetime\">" + data[1] + "</span><span>" + data[2]+"</span></p>";
+                        dataHtml += "<span style=>" + onedata.buyer_id + "<span style=\"float:right\">" + onedata.comment_time + "</span><p><span class=\"msg\">" + onedata.comment_text + "<input style=\"float:right;border:none;border-radius:5px;\" id=\"clearBt\" type=\"button\" onclick=\"delete1;\" value=\"\"/>" + "</span></p>";
+                    }
+                    var div = $("#comment");
+                    div.append(dataHtml);
+                } else {
+                    layer.msg("请求失败！")
+                }
+            });
+
+        };
+        //加载更多
+        function more() {
+            var load = layer.load();
+            loadComment(pageNo);
+        };
+        
+
+        //        ]]>
+       
+    </script>
+
+
+<!--底部-->
+   
+<div th:replace="mall/common::foot"></div>
+</body>
+</html>
